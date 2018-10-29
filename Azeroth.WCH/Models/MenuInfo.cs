@@ -111,7 +111,7 @@ namespace Azeroth.WCH.Models
             lst.Add(value2);
             value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "编辑", Order = order++, Pid = value1.Id, Url = "/article/edit" };
             lst.Add(value2);
-            value1 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "详情", Order = order++, Pid = value0.Id, Url = "/blogs/read" };
+            value1 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "详情", Order = order++, Pid = value0.Id, Url = "/article/info" };
             lst.Add(value1);
             //value1 = new MenuInfo() { Id = Guid.NewGuid(), Name = "工资发放", Order = order++, Pid = value0.Id, Url = "/ZHGZ/GZFF" };
             //lst.Add(value1);
@@ -246,6 +246,25 @@ namespace Azeroth.WCH.Models
             //lst.Add(value1);
             //value1 = new MenuInfo() { Id = Guid.NewGuid(), Name = "数据备份", Order = order++, Pid = value0.Id, Url = "/Setting/Authorizition" };
             return lst;
+        }
+
+        public static List<MenuInfo> GetActiveTree(MenuInfo menu)
+        {
+            List<MenuInfo> lst = new List<MenuInfo>();
+            menu.Forcus = true;
+            lst.Add(menu);
+            if (menu.Parant != null)
+                GetActiveTree(menu.Parant, lst);
+            lst.Reverse();
+            return lst;
+        }
+
+        private static void GetActiveTree(MenuInfo menu, List<MenuInfo> lst)
+        {
+            menu.Forcus = true;
+            lst.Add(menu);
+            if (menu.Parant != null)
+                GetActiveTree(menu.Parant,lst);
         }
     }
 }

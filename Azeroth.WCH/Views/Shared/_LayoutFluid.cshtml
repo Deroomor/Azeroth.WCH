@@ -22,8 +22,19 @@
     var path = this.Request.Url.AbsolutePath.ToLower();
     path = path.TrimEnd('/');
 
-    var activeMenu = lstMenu.Where(x => x.Url.IndexOf(path) >= 0).OrderBy(x => x.Pid).LastOrDefault();
-    var lstBread = Azeroth.WCH.Models.MenuInfo.GetActiveTree(activeMenu);
+    var ForcusMenu = lstMenu.Where(x => x.Url.IndexOf(path) >= 0).OrderBy(x => x.Pid).LastOrDefault();
+    ForcusMenu.Forcus = true;
+    Azeroth.WCH.Models.MenuInfo forcusNav = ForcusMenu;
+    if (forcusNav.Parant != null)
+    {
+        forcusNav.Parant.Forcus = true;
+        forcusNav = forcusNav.Parant;
+    }
+    if (forcusNav.Parant != null)
+    {
+        forcusNav.Parant.Forcus = true;
+        forcusNav = forcusNav.Parant;
+    }
 }
 
 <!DOCTYPE html>
@@ -83,13 +94,13 @@
         }
     </style>
 
-
+    @(RenderSection("style", false));
 </head>
 
 <body>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+        <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
@@ -117,51 +128,65 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <ol class="breadcrumb">
-                @{
-                    for (int i = 0; i < lstBread.Count; i++)
-                    {
-                        if (i == lstBread.Count - 1)
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    @{
+                        for (int i = 0; i < forcusNav.Chirldren.Count; i++)
                         {
-                            <li class="@(i==(lstBread.Count-1)?"active":string.Empty)">@(lstBread[i].DisplayName)</li>
-                        }
-                        else
-                        {
-                            <li class="@(i==(lstBread.Count-1)?"active":string.Empty)"><a href="@(lstBread[i].Url)">@(lstBread[i].DisplayName)</a></li>
-                        }
+                            if (forcusNav.Chirldren[i].Chirldren.Count < 1)
+                            {
+                                <li class="@(forcusNav.Chirldren[i].Forcus ? "active" : string.Empty)"><a href="@forcusNav.Chirldren[i].Url">@forcusNav.Chirldren[i].DisplayName</a></li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a href="#__menu@(i)" data-toggle="collapse"><strong>@(forcusNav.Chirldren[i].DisplayName)</strong></a>
+                                    <ul class="@(forcusNav.Chirldren[i].Forcus ? "nav in" : "nav collapse")" id="__menu@(i)">
+                                        @{
+                                            foreach (var theLeaf in forcusNav.Chirldren[i].Chirldren)
+                                            {
+                                                <li class="@(theLeaf.Forcus ? "active" : string.Empty)"><a href="@theLeaf.Url">@theLeaf.DisplayName</a></li>
+                                            }
+                                        }
+                                    </ul>
+                                </li>
+                                                }
+                                            }
                     }
-                }
-            </ol>
-        </div>
-        @(RenderBody())
-        <footer class="footer">
-            <div class="col-sm-offset-3  col-md-offset-2">
-                <p class="pull-right"><a href="#">返回顶部</a></p>
-                <p>&copy; @(DateTime.Now.Year) 丢了光影</p>
+                </ul>
             </div>
-        </footer>
-    </div>
+            <div class="col-sm-21 col-sm-offset-3 col-md-22 col-md-offset-2 main">
+                @(RenderBody())
+            </div>
+        </div>
 
+    </div>
+    <footer class="footer">
+        <div class="col-sm-offset-3  col-md-offset-2">
+            <p class="pull-right"><a href="#">返回顶部</a></p>
+            <p>&copy; @(DateTime.Now.Year) 丢了光影</p>
+        </div>
+    </footer>
     <script src="~/Assets/js/jquery-1.12.4.js"></script>
     <script src="~/Assets/bootstrap/js/bootstrap.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="~/Assets/bootstrap/js/ie10-viewport-bug-workaround.js"></script>
     <script type="text/javascript">
-        //$(function () {
-        //    $(".sidebar a[data-toggle=collapse]").bind("click", {}, function () {
-        //        //处理菜单的折叠，右边的指示箭头
-        //        $(".sidebar .in").collapse("hide");
-        //        //var triggers = $(".sidebar a[data-toggle=collapse]").not(this);
-        //        //triggers.find(".glyphicon-chevron-down").hide();
-        //        //triggers.find(".glyphicon-chevron-right").show();
-        //        //$(this).find(".glyphicon-chevron-down").toggle();
-        //        //$(this).find(".glyphicon-chevron-right").toggle();
-        //    });
-        //});
+        $(function () {
+            $(".sidebar a[data-toggle=collapse]").bind("click", {}, function () {
+                //处理菜单的折叠，右边的指示箭头
+                $(".sidebar .in").collapse("hide");
+                //var triggers = $(".sidebar a[data-toggle=collapse]").not(this);
+                //triggers.find(".glyphicon-chevron-down").hide();
+                //triggers.find(".glyphicon-chevron-right").show();
+                //$(this).find(".glyphicon-chevron-down").toggle();
+                //$(this).find(".glyphicon-chevron-right").toggle();
+            });
+        });
 
     </script>
-
+    @(RenderSection("style", false));
 </body>
 </html>

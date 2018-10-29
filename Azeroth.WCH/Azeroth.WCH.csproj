@@ -151,7 +151,10 @@
     <Compile Include="Areas\Wages\Models\Class1.cs" />
     <Compile Include="Areas\Wages\WagesAreaRegistration.cs" />
     <Compile Include="Common\Class1.cs" />
+    <Compile Include="Controllers\ArticleController.cs" />
+    <Compile Include="Controllers\AuthorController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BlogsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RoleInfoController.cs" />
     <Compile Include="Controllers\UserInfoController.cs" />
@@ -195,11 +198,17 @@
     <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Assets\js\jquery-1.12.4.min.map" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_LayoutFluid.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\UserInfo\Index.cshtml" />
     <Content Include="Views\RoleInfo\Index.cshtml" />
     <Content Include="Views\Home\OnException.cshtml" />
+    <Content Include="Views\Blogs\Index.cshtml" />
+    <Content Include="Views\Article\Play.cshtml" />
+    <Content Include="Views\Article\Edit.cshtml" />
+    <Content Include="Views\Article\Index.cshtml" />
+    <Content Include="Views\Author\Index.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
