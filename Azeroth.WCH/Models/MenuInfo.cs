@@ -103,7 +103,16 @@ namespace Azeroth.WCH.Models
             value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "出差", Order = order++, Pid = value1.Id, Url = "/flows/businesstravel/index" };
             lst.Add(value2);
 
-
+            value0 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "随笔", Order = order++, Pid = Guid.Empty, Url= "/blogs/index" };
+            lst.Add(value0);
+            value1 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "个人中心", Order = order++, Pid = value0.Id, Url = "/author/index" };
+            lst.Add(value1);
+            value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "新随笔", Order = order++, Pid = value1.Id, Url = "/article/index" };
+            lst.Add(value2);
+            value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "编辑", Order = order++, Pid = value1.Id, Url = "/article/edit" };
+            lst.Add(value2);
+            value1 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "详情", Order = order++, Pid = value0.Id, Url = "/blogs/read" };
+            lst.Add(value1);
             //value1 = new MenuInfo() { Id = Guid.NewGuid(), Name = "工资发放", Order = order++, Pid = value0.Id, Url = "/ZHGZ/GZFF" };
             //lst.Add(value1);
             //方案
