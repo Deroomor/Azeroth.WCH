@@ -1,0 +1,195 @@
+﻿@{
+    Layout = null;
+
+    Azeroth.WCH.Model.User_Info userInfo = new Azeroth.WCH.Model.User_Info() { Id = Guid.NewGuid(), Name = "admin" };
+
+    List<Azeroth.WCH.Models.MenuInfo> lstMenu = this.ViewData["lstMenu"] as List<Azeroth.WCH.Models.MenuInfo>;
+    lstMenu.ForEach(x => x.Url = (x.Url ?? string.Empty).ToLower());//全部转小写
+
+    var dictmenu = lstMenu.ToDictionary(x => x.Id, x => x);
+    lstMenu.ForEach(x => x.Parant = dictmenu.ContainsKey(x.Pid) ? dictmenu[x.Pid] : null);
+    lstMenu.Where(x => x.Parant != null).ToList().ForEach(x => x.Parant.Chirldren.Add(x));
+    var lstNav = lstMenu.Where(x => x.Pid == Guid.Empty).ToList();
+    lstNav.ForEach(x =>
+    {
+        var lstTmp = x.Chirldren.SelectMany(a => a.Chirldren).ToList();
+        lstTmp.AddRange(x.Chirldren);
+        if (string.IsNullOrEmpty(x.Url))
+        {
+            x.Url = (lstTmp.OrderBy(a => a.NotAuthorizition).FirstOrDefault(a => !string.IsNullOrEmpty(a.Url)) ?? new Azeroth.WCH.Models.MenuInfo()).Url;
+        }
+    });
+
+    var path = this.Request.Url.AbsolutePath.ToLower();
+    path = path.TrimEnd('/');
+
+    var ForcusMenu = lstMenu.Where(x => x.Url.IndexOf(path) >= 0).OrderBy(x => x.Pid).LastOrDefault();
+    ForcusMenu.Forcus = true;
+    Azeroth.WCH.Models.MenuInfo forcusNav = ForcusMenu;
+    if (forcusNav.Parant != null)
+    {
+        forcusNav.Parant.Forcus = true;
+        forcusNav = forcusNav.Parant;
+    }
+    if (forcusNav.Parant != null)
+    {
+        forcusNav.Parant.Forcus = true;
+        forcusNav = forcusNav.Parant;
+    }
+}
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="~/favicon.ico">
+
+    <title>@(this.ViewBag.Title)</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="~/Assets/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="~/Assets/bootstrap/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="~/Assets/css/dashboard.css" rel="stylesheet" />
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="~/Assets/bootstrap/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="~/Assets/bootstrap/js/ie-emulation-modes-warning.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="~/Assets/bootstrap/js/html5shiv.min.js"></script>
+        <script src="~/Assets/bootstrap/js/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .nav-active {
+            color: #ffffff !important;
+            background-color: transparent !important;
+        }
+
+        .main {
+            min-height: 1200px;
+        }
+
+        .nav-sidebar .active > a,
+        .nav-sidebar .active > a:focus,
+         .nav-sidebar .active > a:hover {
+            color: #fff;
+            background-color: #428bca !important;
+        }
+
+        .nav-sidebar > li a {
+            padding-left: 15px;
+        }
+
+        .nav-sidebar > li > ul > li a {
+            padding-left: 25px;
+        }
+
+        .nav-sidebar > li > ul a:hover {
+            border-left: 3px solid #428bca;
+        }
+
+    </style>
+    
+    @(RenderSection("style", false));
+</head>
+
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="~/Home/Index"><span class="glyphicon glyphicon-gift"></span><span>Brand</span></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @{
+                        foreach (var l1menu in lstNav)
+                        {
+                            <li><a class="@(l1menu.Forcus ? "nav-active" : string.Empty)" href="@(l1menu.Url)">@(l1menu.DisplayName)</a></li>
+                        }
+                    }
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="@(!this.User.Identity.IsAuthenticated ? "hidden" : string.Empty)"><a href="#">@(userInfo.Name)</a></li>
+                    <li class="@(this.User.Identity.IsAuthenticated ? "hidden" : string.Empty)"><a href="~/Home/Signin">登陆</a></li>
+                    <li class="@(!this.User.Identity.IsAuthenticated ? "hidden" : string.Empty)"><a href="~/Home/Signout">注销</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    @{
+                        for (int i = 0; i < forcusNav.Chirldren.Count; i++)
+                        {
+                            if (forcusNav.Chirldren[i].Chirldren.Count < 1)
+                            {
+                                <li class="@(forcusNav.Chirldren[i].Forcus ? "active" : string.Empty)"><a href="@forcusNav.Chirldren[i].Url">@forcusNav.Chirldren[i].DisplayName</a></li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a href="#__menu@(i)" data-toggle="collapse" ><strong>@(forcusNav.Chirldren[i].DisplayName)</strong></a>
+                                    <ul class="@(forcusNav.Chirldren[i].Forcus ? "nav in" : "nav collapse")" id="__menu@(i)">
+                                        @{
+                                                foreach (var theLeaf in forcusNav.Chirldren[i].Chirldren)
+                                                {
+                                                    <li class="@(theLeaf.Forcus ? "active" : string.Empty)"><a href="@theLeaf.Url">@theLeaf.DisplayName</a></li>
+                                                }
+                                            }
+                                    </ul>
+                                </li>
+                            }
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="col-sm-21 col-sm-offset-3 col-md-22 col-md-offset-2 main">
+                     @(RenderBody())
+            </div>
+        </div>
+       
+    </div>
+    <footer class="footer">
+        <div class="col-sm-offset-3  col-md-offset-2">
+            <p class="pull-right"><a href="#">返回顶部</a></p>
+            <p>&copy; @(DateTime.Now.Year) Azeroth, Inc. &middot;</p>
+        </div>
+    </footer>
+    <script src="~/Assets/js/jquery-1.12.4.js"></script>
+    <script src="~/Assets/bootstrap/js/bootstrap.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="~/Assets/bootstrap/js/ie10-viewport-bug-workaround.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".sidebar a[data-toggle=collapse]").bind("click", {}, function () {
+                //处理菜单的折叠，右边的指示箭头
+                $(".sidebar .in").collapse("hide");
+                //var triggers = $(".sidebar a[data-toggle=collapse]").not(this);
+                //triggers.find(".glyphicon-chevron-down").hide();
+                //triggers.find(".glyphicon-chevron-right").show();
+                //$(this).find(".glyphicon-chevron-down").toggle();
+                //$(this).find(".glyphicon-chevron-right").toggle();
+            });
+        });
+
+    </script>
+    @(RenderSection("style", false));
+</body>
+</html>
+
