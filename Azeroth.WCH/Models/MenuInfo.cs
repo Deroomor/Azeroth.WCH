@@ -35,16 +35,26 @@ namespace Azeroth.WCH.Models
             List<MenuInfo> lst = new List<MenuInfo>();
             int order = 0;
 
-            MenuInfo value0 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "晴雨表", Order = order++, Pid = Guid.Empty, Url = "/home/index" };
+            MenuInfo value0 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "随笔", Order = order++, Pid = Guid.Empty, Url = "/blogs/index" };
             lst.Add(value0);
+            MenuInfo value1 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "个人中心", Order = order++, Pid = value0.Id, Url = "/author/index" };
+            lst.Add(value1);
+            MenuInfo value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "新随笔", Order = order++, Pid = value1.Id, Url = "/article/index" };
+            lst.Add(value2);
+            value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "编辑", Order = order++, Pid = value1.Id, Url = "/article/edit" };
+            lst.Add(value2);
+            value1 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "详情", Order = order++, Pid = value0.Id, Url = "/article/play" };
+            lst.Add(value1);
+
+            
 
 
             value0 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "工资管理", Order = order++, Pid = Guid.Empty, Url = string.Empty };
             lst.Add(value0);
 
-            MenuInfo value1 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "员工考勤", Order = order++, Pid = value0.Id, Url = string.Empty };
+             value1 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "员工考勤", Order = order++, Pid = value0.Id, Url = string.Empty };
             lst.Add(value1);
-            MenuInfo value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "主记录", Order = order++, Pid = value1.Id, Url = "/wages/attendance/index" };
+             value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "主记录", Order = order++, Pid = value1.Id, Url = "/wages/attendance/index" };
             lst.Add(value2);
             value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "明细数据", Order = order++, Pid = value1.Id, Url = "/wages/attendance/detail" };
             lst.Add(value2);
@@ -103,16 +113,9 @@ namespace Azeroth.WCH.Models
             value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "出差", Order = order++, Pid = value1.Id, Url = "/flows/businesstravel/index" };
             lst.Add(value2);
 
-            value0 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "随笔", Order = order++, Pid = Guid.Empty, Url= "/blogs/index" };
+
+            value0 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "晴雨表", Order = order++, Pid = Guid.Empty, Url = "/home/index" };
             lst.Add(value0);
-            value1 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "个人中心", Order = order++, Pid = value0.Id, Url = "/author/index" };
-            lst.Add(value1);
-            value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "新随笔", Order = order++, Pid = value1.Id, Url = "/article/index" };
-            lst.Add(value2);
-            value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "编辑", Order = order++, Pid = value1.Id, Url = "/article/edit" };
-            lst.Add(value2);
-            value1 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "详情", Order = order++, Pid = value0.Id, Url = "/article/info" };
-            lst.Add(value1);
             //value1 = new MenuInfo() { Id = Guid.NewGuid(), Name = "工资发放", Order = order++, Pid = value0.Id, Url = "/ZHGZ/GZFF" };
             //lst.Add(value1);
             //方案
