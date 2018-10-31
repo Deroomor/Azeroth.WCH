@@ -20,7 +20,7 @@ namespace Azeroth.WCH.Areas.Wages.Controllers
 
         public ActionResult Detail()
         {
-
+            throw new ArgumentException("月份格式不正确");
             return View();
         }
 	}
