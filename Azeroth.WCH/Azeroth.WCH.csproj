@@ -131,6 +131,7 @@
     <Content Include="Assets\xhEditor\src\core.js" />
     <Content Include="Assets\xhEditor\src\lang.js" />
     <Content Include="Assets\xhEditor\src\main.js" />
+    <Content Include="Assets\xhEditor\xheditor.js" />
     <Content Include="Assets\xhEditor\xheditor_emot\default\angry.gif" />
     <Content Include="Assets\xhEditor\xheditor_emot\default\awkward.gif" />
     <Content Include="Assets\xhEditor\xheditor_emot\default\bye.gif" />

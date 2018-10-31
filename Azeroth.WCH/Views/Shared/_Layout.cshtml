@@ -81,9 +81,13 @@
         .nav-sidebar > li > ul a:hover {
             border-left: 3px solid #428bca;
         }
+
+        .breadcrumb{
+            margin-bottom:10px;
+        }
     </style>
 
-
+    @(RenderSection("style", false))
 </head>
 
 <body>
@@ -162,6 +166,6 @@
         //});
 
     </script>
-
+    @(RenderSection("script", false))
 </body>
 </html>
