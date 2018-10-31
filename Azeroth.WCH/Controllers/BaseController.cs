@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -33,7 +34,11 @@ namespace Azeroth.WCH.Controllers
             }
         }
 
-      
+        protected internal new JsonResult Json(object data)
+        {
+            return this.Json(data, JsonRequestBehavior.AllowGet);
+        }
+
 
 
     }
