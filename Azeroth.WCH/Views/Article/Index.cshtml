@@ -38,14 +38,17 @@
 
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">标题</a></li>
+            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">正文</a></li>
             <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">正文</a></li>
-            
+
         </ul>
 
         <!-- Tab panes -->
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="home">
+                <textarea name="Content" class="wch-editor" id="articleEditor" style="width:100%;"></textarea>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="profile">
                 <form>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Email address</label>
@@ -67,16 +70,14 @@
                     </div>
                     <button type="submit" class="btn btn-default">Submit</button>
                 </form>
-            </div>
-            <div role="tabpanel" class="tab-pane" id="profile">
-                <textarea name="Content" class="wch-editor" id="articleEditor" style="width:100%;">test</textarea>
+
             </div>
         </div>
 
     </div>
 
 
-    
+
 
 
 </div>
@@ -92,7 +93,25 @@
             var height = $(".wch-editor").height();
             //console.log(height);
             $("#articleEditor").height(height);
-            $('#articleEditor').xheditor({ skin: 'nostyle', showBlocktag: true, loadCSS: '/Assets/bootstrap/css/bootstrap.css' });
+            var editor = $('#articleEditor').xheditor({ skin: 'nostyle', showBlocktag: true, loadCSS: '/Assets/bootstrap/css/bootstrap.css', disableContextmenu: true });
+            editor.addShortcuts("alt+j", function () {
+                editor.pasteHTML('<div class="panel panel-default">'
+  +'<div class="panel-heading">Panel heading</div>'
+  +'<p>plachoude</p>'
++'</div>');
+            });
+
+            editor.addShortcuts("alt+i", function () {
+
+                var rng = editor.getRng();
+
+                rng.insertNode(rng.createContextualFragment("<b>Hello</b>"));
+                //$(m.parant).before("");
+                editor.pasteHTML('<div class="panel panel-primary">'
+  + '<div class="panel-heading">Panel heading</div>'
+  + '<p>plachoude</p>'
++ '</div>',true);
+            });
         });
     </script>
 }
