@@ -13,6 +13,12 @@ namespace Azeroth.WCH.Controllers
         // GET: /Au/
         protected override void OnAuthentication(System.Web.Mvc.Filters.AuthenticationContext filterContext)
         {
+            if (!this.User.Identity.IsAuthenticated)
+                System.Web.Security.FormsAuthentication.RedirectToLoginPage();
+            System.Web.Security.FormsAuthentication.SetAuthCookie(this.User.Identity.Name, true);
+            var userinfo = this.Session["userInfo"] as Models.UserInfo;
+            userinfo = userinfo ?? new Models.UserInfo() {  Id=new Guid(this.User.Identity.Name), Name=System.IO.Path.GetRandomFileName()};
+            this.Session["userInfo"] = userinfo;
             var lstMenu = WCH.Models.MenuInfo.GetList();
             this.ViewData["lstMenu"] = lstMenu;
         }
@@ -20,7 +26,7 @@ namespace Azeroth.WCH.Controllers
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
             //throw new ArgumentException("没有权限");
-            // filterContext.Result = this.View("~/Views/Home/NoAuthorization.cshtml");
+            //filterContext.Result = this.View("~/Views/Home/NoAuthorization.cshtml");
             //base.OnAuthorization(filterContext);
         }
 
