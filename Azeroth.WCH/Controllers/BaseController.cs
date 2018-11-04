@@ -9,17 +9,22 @@ namespace Azeroth.WCH.Controllers
 {
     public class BaseController : Controller
     {
-        //
-        // GET: /Au/
+        static Func<string, bool, string> GetLoginPage =  (Func<string,bool,string>)System.Delegate.CreateDelegate(typeof(Func<string,bool,string>), 
+            typeof(System.Web.Security.FormsAuthentication).GetMethod("GetLoginPage", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static, null,new Type[] { typeof(string), typeof(bool) }, null));
+
         protected override void OnAuthentication(System.Web.Mvc.Filters.AuthenticationContext filterContext)
         {
             if (!this.User.Identity.IsAuthenticated)
-                System.Web.Security.FormsAuthentication.RedirectToLoginPage();
+            {
+                var loginurl= GetLoginPage(null, false);
+                filterContext.Result = this.Redirect(loginurl);
+                return;
+            }
             System.Web.Security.FormsAuthentication.SetAuthCookie(this.User.Identity.Name, true);
-            var userinfo = this.Session["userInfo"] as Models.UserInfo;
-            userinfo = userinfo ?? new Models.UserInfo() {  Id=new Guid(this.User.Identity.Name), Name=System.IO.Path.GetRandomFileName()};
+            var userinfo = this.Session["userInfo"] as Model.DTO.UserInfo;
+            userinfo = userinfo ?? new Model.DTO.UserInfo() {  Id=new Guid(this.User.Identity.Name), Name=System.IO.Path.GetRandomFileName()};
             this.Session["userInfo"] = userinfo;
-            var lstMenu = WCH.Models.MenuInfo.GetList();
+            var lstMenu = Model.DTO.MenuInfo.GetList();
             this.ViewData["lstMenu"] = lstMenu;
         }
 
@@ -32,6 +37,7 @@ namespace Azeroth.WCH.Controllers
 
         protected override void OnException(ExceptionContext filterContext)
         {
+
             if(!filterContext.HttpContext.Request.IsAjaxRequest())
             {
                 this.ViewData["ErrorMsg"] = filterContext.Exception.Message;

@@ -426,6 +426,7 @@
     <Compile Include="Areas\Wages\Models\Class1.cs" />
     <Compile Include="Areas\Wages\WagesAreaRegistration.cs" />
     <Compile Include="Common\Class1.cs" />
+    <Compile Include="Common\FunctionAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\AuthorController.cs" />
@@ -437,8 +438,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\MenuInfo.cs" />
-    <Compile Include="Models\UserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
