@@ -9,10 +9,9 @@ namespace Azeroth.WCH.Common
     {
         public string Name { get; set; }
         public string RouteUrl { get; set; }
-        public FunctionCommentAttribute(string name,string routeurl= "{controller}/{action}")
+        public FunctionCommentAttribute(string name)
         {
             this.Name = name;
-            this.RouteUrl = routeurl;
         }
     }
 }
