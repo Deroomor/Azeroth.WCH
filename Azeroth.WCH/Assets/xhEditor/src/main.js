@@ -2191,15 +2191,12 @@
 		    if (settings.forcePtag) {
 		        if (pNode.length === 0)
 		            _this._exec('formatblock', '<p>');
-		        return false;
 		    }
 		    else {
 		        _this.pasteHTML('<br />');
 		        if (isIE && pNode.length > 0 && _this.getRng().parentElement().childNodes.length === 2)
 		            _this.pasteHTML('<br />');
 		        return false;
-		        //if (pNode.length === 0)
-		        //    _this._exec('formatblock', '<p>');
 		    }
 		}
 		function fixFullHeight()
