@@ -3,7 +3,7 @@
 
     Azeroth.WCH.Model.User_Info userInfo = new Azeroth.WCH.Model.User_Info() { Id = Guid.NewGuid(), Name = "admin" };
 
-    List<Azeroth.WCH.Models.MenuInfo> lstMenu = this.ViewData["lstMenu"] as List<Azeroth.WCH.Models.MenuInfo>;
+    List<Azeroth.WCH.Model.DTO.MenuInfo> lstMenu = this.ViewData["lstMenu"] as List<Azeroth.WCH.Model.DTO.MenuInfo>;
     lstMenu.ForEach(x => x.Url = (x.Url ?? string.Empty).ToLower());//全部转小写
 
     var dictmenu = lstMenu.ToDictionary(x => x.Id, x => x);
@@ -14,7 +14,7 @@
     {
         var lstTmp = x.Chirldren.SelectMany(a => a.Chirldren).ToList();
         lstTmp.AddRange(x.Chirldren);
-        x.Url = (lstTmp.OrderBy(a => a.NotAuthorizition).FirstOrDefault(a => !string.IsNullOrEmpty(a.Url)) ?? new Azeroth.WCH.Models.MenuInfo()).Url;
+        x.Url = (lstTmp.OrderBy(a => a.NotAuthorizition).FirstOrDefault(a => !string.IsNullOrEmpty(a.Url)) ?? new Azeroth.WCH.Model.DTO.MenuInfo()).Url;
     });
 
     var path = this.Request.Url.AbsolutePath.ToLower();
@@ -22,7 +22,7 @@
 
     var ForcusMenu = lstMenu.FirstOrDefault(x => x.Pid!=Guid.Empty && x.Url.IndexOf(path) >= 0);
     ForcusMenu.Forcus = true;
-    Azeroth.WCH.Models.MenuInfo forcusNav = ForcusMenu;
+    Azeroth.WCH.Model.DTO.MenuInfo forcusNav = ForcusMenu;
     if (forcusNav.Parant != null)
     {
         forcusNav.Parant.Forcus = true;

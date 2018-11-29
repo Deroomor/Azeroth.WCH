@@ -16,7 +16,7 @@
             background-color: transparent;
         }
 
-        .wch-editor {
+        .help-wch-editor-height {
             position: absolute;
             top: 170px;
             border: 1px solid red;
@@ -29,9 +29,16 @@
             display: none;
         }
     </style>
+
+    <style>
+        .testClassName {
+            background: transparent url(/Assets/xhEditor/xheditor_skin/nostyle/img/anchor.gif) no-repeat 20px 20px;
+            background-position: 3px 3px;
+        }
+    </style>
 }
 
-<div class="wch-editor">辅助确定编辑器的高度</div>
+<div class="help-wch-editor-height">辅助确定编辑器的高度</div>
 
 <div class="row">
     <div class="col-xs-24">
@@ -39,7 +46,7 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">正文</a></li>
-            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">正文</a></li>
+            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">属性</a></li>
 
         </ul>
 
@@ -75,11 +82,18 @@
         </div>
 
     </div>
-
-
-
-
-
+</div>
+<div class="hidden">
+    <div id="templatePanel">
+        <div class="panel panel-primary">
+            <p class="panel-heading">标题</p>
+            <div class="panel-body">
+                <p>正文</p>
+            </div>
+        </div>
+        <p><br /></p>
+    </div>
+  
 </div>
 
 
@@ -90,27 +104,106 @@
     <script src="~/Assets/xhEditor/xheditor_lang/zh-cn.js"></script>
     <script>
         $(function () {
-            var height = $(".wch-editor").height();
+
+            var allPlugin = {
+                subscript: { c: 'testClassName', t: '下标:调用execCommand(subscript)' },
+                superscript: { c: 'testClassName', t: '上标:调用execCommand(superscript)' },
+                test1: {
+                    c: 'testClassName', t: '测试1：加粗 (Ctrl+1)', s: 'ctrl+1', e: function () {
+                        this._exec('Bold');
+                    }
+                },
+                test2: {
+                    c: 'testClassName', t: '测试2：普通对话框 (Ctrl+2)', s: 'ctrl+2', h: 1, e: function () {
+                        var _this = this;
+                        var jTest = $('<div>测试showDialog</div><div style="text-align:right;"><input type="button" id="xheSave" value="确定" /></div>');
+                        var jSave = $('#xheSave', jTest);
+                        jSave.click(function () {
+                            _this.pasteHTML('点击了确定按钮');
+                            _this.hidePanel();
+                            return false;
+                        });
+                        _this.saveBookmark();
+                        _this.showDialog(jTest);
+                    }
+                },
+                test3: {
+                    c: 'testClassName', t: '测试3：需要转移焦点的对话框 (Ctrl+3)', s: 'ctrl+3', h: 1, e: function () {
+                        var _this = this;
+                        var jTest = $('<div>测试需要转移焦点的showDialog</div><div><textarea id="xheTestInput" style="width:260px;height:100px;">当互动界面中有input或者textarea等会产生焦点的表单项时，必需在插入内容前用loadBookmark函数加载之前保存的光标焦点。</textarea></div><div style="text-align:right;"><input type="button" id="xheSave" value="确定" /></div>');
+                        var jTestInput = $('#xheTestInput', jTest), jSave = $('#xheSave', jTest);
+                        jSave.click(function () {
+                            _this.loadBookmark();
+                            _this.pasteText('您输入了：' + jTestInput.val());
+                            _this.hidePanel();
+                            return false;
+                        });
+                        _this.saveBookmark();
+                        _this.showDialog(jTest);
+                    }
+                },
+                test4: {
+                    c: 'testClassName', t: '测试4：面板界面 (Ctrl+4)', s: 'ctrl+4', h: 1, e: function () {
+                        var _this = this;
+                        var jTest = $('<div style="padding:5px;">测试showPanel</div>');
+                        _this.showPanel(jTest);
+                    }
+                },
+                test5: {
+                    c: 'testClassName', t: '测试5：菜单调用 (Ctrl+5)', s: 'ctrl+5', h: 1, e: function () {
+                        var _this = this;
+                        var arrMenu = [{ s: '菜单1', v: 'menu1', t: '这是菜单1' }, { s: '菜单2', v: 'menu2', t: '这是菜单2' }, { s: '菜单3', v: 'menu3', t: '这是菜单3' }];
+                        _this.saveBookmark();
+                        _this.showMenu(arrMenu, function (v) { _this.pasteHTML(v); });
+                    }
+                },
+                test6: {
+                    c: 'testClassName', t: '测试6：showModal (Ctrl+6)', s: 'ctrl+6', e: function () {
+                        var _this = this;
+                        _this.saveBookmark();
+                        _this.showModal('测试showModal接口', '<div style="padding:5px;">模式窗口主体内容</div>', 500, 300);
+                    }
+                },
+                test7: {
+                    c: 'testClassName', t: '测试7：showIframeModal (Ctrl+7)', s: 'ctrl+7', e: function () {
+                        var _this = this;
+                        _this.saveBookmark();
+                        _this.showIframeModal('测试showIframeModal接口', 'uploadgui.php', function (v) { _this.loadBookmark(); _this.pasteText('返回值：\r\n' + v); }, 500, 300);
+                    }
+                }
+            };
+            editor = $('#elm1').xheditor({ plugins: allPlugin, tools: 'subscript,superscript,test1,test2,test3,test4,test5,test6,test7,|,Source,Fullscreen,About' });
+
+
+
+            var height = $(".help-wch-editor-height").height();
             //console.log(height);
             $("#articleEditor").height(height);
-            var editor = $('#articleEditor').xheditor({ skin: 'nostyle', showBlocktag: true, loadCSS: '/Assets/bootstrap/css/bootstrap.css', disableContextmenu: true });
+            var editor = $('#articleEditor').xheditor({
+                skin: 'nostyle',
+                showBlocktag: true,
+                forcePtag:true,
+                loadCSS: '/Assets/bootstrap/css/bootstrap.css',
+                disableContextmenu: true
+            });
+
+
+
             editor.addShortcuts("alt+j", function () {
-                editor.pasteHTML('<div class="panel panel-default">'
-  +'<div class="panel-heading">Panel heading</div>'
-  +'<p>plachoude</p>'
-+'</div>');
+
+                var html = $("#templatePanel").clone(false).html();
+               editor.pasteHTML(html,false);
             });
 
             editor.addShortcuts("alt+i", function () {
 
                 var rng = editor.getRng();
 
-                rng.insertNode(rng.createContextualFragment("<b>Hello</b>"));
+               // rng.insertNode(rng.createContextualFragment("<b>Hello</b>"));
                 //$(m.parant).before("");
-                editor.pasteHTML('<div class="panel panel-primary">'
-  + '<div class="panel-heading">Panel heading</div>'
-  + '<p>plachoude</p>'
-+ '</div>',true);
+                editor.pasteHTML(`<div class="page-header">
+    <h1>Example page header <small>Subtext for header</small></h1>
+</div>`);
             });
         });
     </script>

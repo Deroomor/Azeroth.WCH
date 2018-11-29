@@ -2184,18 +2184,23 @@
 				if(isIE)try{_this._exec('BackgroundImageCache',true,true);}catch(e){}
 			}
 		}
-		function forcePtag(ev)
-		{
-			if(bSource||ev.which!==13||ev.shiftKey||ev.ctrlKey||ev.altKey)return true;
-			var pNode=_this.getParent('p,h1,h2,h3,h4,h5,h6,pre,address,div,li');
-			if(pNode.is('li'))return true;
-			if(settings.forcePtag){if(pNode.length===0)_this._exec('formatblock','<p>');}
-			else
-			{
-				_this.pasteHTML('<br />');
-				if(isIE&&pNode.length>0&&_this.getRng().parentElement().childNodes.length===2)_this.pasteHTML('<br />');
-	            return false;
-			}
+		function forcePtag(ev) {
+		    if (bSource || ev.which !== 13 || ev.shiftKey || ev.ctrlKey || ev.altKey) return true;
+		    var pNode = _this.getParent('p,h1,h2,h3,h4,h5,h6,pre,address,div,li');
+		    if (pNode.is('li')) return true;
+		    if (settings.forcePtag) {
+		        if (pNode.length === 0)
+		            _this._exec('formatblock', '<p>');
+		        return false;
+		    }
+		    else {
+		        _this.pasteHTML('<br />');
+		        if (isIE && pNode.length > 0 && _this.getRng().parentElement().childNodes.length === 2)
+		            _this.pasteHTML('<br />');
+		        return false;
+		        //if (pNode.length === 0)
+		        //    _this._exec('formatblock', '<p>');
+		    }
 		}
 		function fixFullHeight()
 		{
