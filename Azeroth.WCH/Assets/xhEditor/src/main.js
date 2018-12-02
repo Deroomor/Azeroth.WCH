@@ -189,7 +189,8 @@
 
 			var iframeHTML='<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><head>'+headHTML+'<title>{#defaultReadTip} '+(settings.readTip?settings.readTip:'')+'</title>';
 			if(editorBackground)iframeHTML+='<style>html{background:'+editorBackground+';}</style>';
-			iframeHTML+='</head><body spellcheck="0" class="editMode'+bodyClass+'"></body></html>';
+		    //iframeHTML+='</head><body spellcheck="0" class="editMode'+bodyClass+'"></body></html>';
+			iframeHTML += '</head><body spellcheck="0" class="container-fluid editMode' + bodyClass + '"></body></html>';
 			_this.win=_win=$('#'+idIframe)[0].contentWindow;
 			_jWin=$(_win);
 			try{
@@ -1210,7 +1211,8 @@
 			var beforeSetSource=settings.beforeSetSource,sContent=_this.getSource();
 			if(beforeSetSource)sContent=beforeSetSource(sContent);
 			var sHTML='<html><head>'+headHTML+'<title>{#Preview}</title>'+(urlBase?'<base href="'+urlBase+'"/>':'')+'</head><body>' + sContent + '</body></html>';
-			var screen=window.screen,oWindow=window.open('', 'xhePreview', 'toolbar=yes,location=no,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width='+Math.round(screen.width*0.9)+',height='+Math.round(screen.height*0.8)+',left='+Math.round(screen.width*0.05)),oDoc=oWindow.document;
+			//var screen = window.screen, oWindow = window.open('', 'xhePreview', 'toolbar=yes,location=no,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=' + Math.round(screen.width * 0.9) + ',height=' + Math.round(screen.height * 0.8) + ',left=' + Math.round(screen.width * 0.05)), oDoc = oWindow.document;
+			var screen = window.screen, oWindow = window.open('', '_blank'), oDoc = oWindow.document;
 			oDoc.open();
 			oDoc.write(getLang(sHTML));
 			oDoc.close();

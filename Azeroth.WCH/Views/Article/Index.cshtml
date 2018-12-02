@@ -31,12 +31,103 @@
     </style>
 
     <style>
-        .testClassName {
-            background: transparent url(/Assets/xhEditor/xheditor_skin/nostyle/img/anchor.gif) no-repeat 20px 20px;
+        .bootstrap-component {
+            background: transparent url(/Assets/img/pngformat/TileWindowsHorizontallyHS.png) no-repeat;
             background-position: 3px 3px;
         }
+
+        .bootstrap-page {
+            background: transparent url(/Assets/img/pngformat/DisplayInColorHS.png) no-repeat;
+            background-position: 3px 3px;
+        }
+        .bootstrap-layout {
+            background: transparent url(/Assets/img/pngformat/ShowGridlines2HS.png) no-repeat;
+            background-position: 3px 3px;
+        }
+        
     </style>
 }
+@section script{
+    <script src="~/Assets/js/jquery-1.12.4.js"></script>
+    <script src="~/Assets/xhEditor/xheditor.js"></script>
+    <script src="~/Assets/xhEditor/xheditor_lang/zh-cn.js"></script>
+    <script>
+        $(function () {
+            var height = $(".help-wch-editor-height").height();
+            //console.log(height);
+            $("#articleEditor").height(height);
+
+
+            var myplugin = {
+                bootstrapcomponent: {
+                    c: 'bootstrap-component', t: '组件', s: '', h: 1, e: function () {
+                        var _this = this;
+                        var arrMenu = [{ s: '面板', v: '#templatePanel', t: '' },
+                            { s: '页头', v: '#templatePageHeader', t: '' } ];
+                        _this.saveBookmark();
+                        _this.showMenu(arrMenu, function (id) {
+                            var html= $(id).clone(false).html();
+                            _this.appendHTML(html);
+                            _this.loadBookmark();
+                        });
+                    }
+                },
+                bootstrappage: {
+                    c: 'bootstrap-page', t: '段落', s: '', h: 1, e: function () {
+                        var _this = this;
+                        var arrMenu = [{ s: 'primary', v: '#template-bg-primary', t: '' },
+                            { s: 'success', v: '#template-bg-success', t: '' },
+                        { s: 'info', v: '#template-bg-info', t: '' },
+                        { s: 'warning', v: '#template-bg-warning', t: '' },
+                        { s: 'danger', v: '#template-bg-danger', t: '' }];
+                        _this.saveBookmark();
+                        _this.showMenu(arrMenu, function (id) {
+                            var html = $(id).clone(false).html();
+                            _this.appendHTML(html);
+                            _this.loadBookmark();
+                        });
+                    }
+                },
+                bootstraplayout: {
+                    c: 'bootstrap-layout', t: '栅格', s: '', h: 1, e: function () {
+                        var _this = this;
+                        var arrMenu = [{ s: 'col-2', v: '#template-col-2', t: '' },
+                         { s: 'col-3', v: '#template-col-3', t: '' },
+                        { s: 'col-4', v: '#template-col-4', t: '' },
+                        { s: 'col-6', v: '#template-col-6', t: '' }];
+                        _this.saveBookmark();
+                        _this.showMenu(arrMenu, function (id) {
+                            var html = $(id).clone(false).html();
+                            _this.appendHTML(html);
+                            _this.loadBookmark();
+                        });
+                    }
+                },
+            };
+            var editor = $('#articleEditor').xheditor({
+                plugins: myplugin,
+                skin: 'nostyle',
+                showBlocktag: true,
+                forcePtag: true,
+                loadCSS: '/Assets/bootstrap/css/bootstrap.css',
+                disableContextmenu: true,
+                tools:'Cut,Copy,Paste,Pastetext'
+                + ',|,Blocktag,Fontface,FontSize,Bold,Italic,Underline,Strikethrough,FontColor,BackColor,SelectAll,Removeformat'
+                + ',|,Align,List,Outdent,Indent'
+                + ',|,bootstrapcomponent,bootstrappage,bootstraplayout'
+                + ',|,Link,Unlink,Hr,Emot'
+                + ',|,Source,Fullscreen'
+            });
+
+            //editor.addShortcuts("alt+j", function () {
+            //    var html = $("#templatePanel").clone(false).html();
+            //   editor.pasteHTML(html,false);
+            //});
+
+        });
+    </script>
+}
+
 
 <div class="help-wch-editor-height">辅助确定编辑器的高度</div>
 
@@ -97,54 +188,70 @@
         <div class="page-header">
             <h1>主标题 <small>副标题</small></h1>
         </div>
+        <p><br /></p>
     </div>
+
+    <div id="template-bg-primary">
+        <p class="bg-primary">Page</p>
+        <p><br /></p>
+    </div>
+
+    <div id="template-bg-success">
+        <p class="bg-success">Page</p>
+        <p><br /></p>
+    </div>
+    <div id="template-bg-info">
+        <p class="bg-info">Page</p>
+        <p><br /></p>
+    </div>
+    <div id="template-bg-warning">
+        <p class="bg-warning">Page</p>
+        <p><br /></p>
+    </div>
+    <div id="template-bg-danger">
+        <p class="bg-danger">Page</p>
+        <p><br /></p>
+    </div>
+    
+    <div id="template-col-2">
+        <div class="row">
+            <div class="col-md-12">1</div>
+            <div class="col-md-12">2</div>
+        </div>
+        <p><br /></p>
+    </div>
+
+    <div id="template-col-3">
+        <div class="row">
+            <div class="col-md-8">1</div>
+            <div class="col-md-8">2</div>
+            <div class="col-md-8">3</div>
+        </div>
+         <p><br /></p>
+    </div>
+    <div id="template-col-4">
+        <div class="row">
+            <div class="col-md-6">1</div>
+            <div class="col-md-6">2</div>
+             <div class="col-md-6">3</div>
+            <div class="col-md-6">4</div>
+        </div>
+         <p><br /></p>
+    </div>
+
+    <div id="template-col-6">
+        <div class="row">
+            <div class="col-md-4">1</div>
+            <div class="col-md-4">2</div>
+             <div class="col-md-4">3</div>
+            <div class="col-md-4">4</div>
+             <div class="col-md-4">5</div>
+            <div class="col-md-4">6</div>
+        </div>
+         <p><br /></p>
+    </div>
+
 </div>
 
 
 
-@section script{
-    <script src="~/Assets/js/jquery-1.12.4.js"></script>
-    <script src="~/Assets/xhEditor/xheditor.js"></script>
-    <script src="~/Assets/xhEditor/xheditor_lang/zh-cn.js"></script>
-    <script>
-        $(function () {
-
-            var allPlugin = {
-                bootstrap: {
-                    c: 'testClassName', t: '组件', s: 'ctrl+5', h: 1, e: function () {
-                        var _this = this;
-                        var arrMenu = [{ s: '面板', v: '#templatePanel', t: 'panel' },
-                            { s: '页头', v: '#templatePageHeader', t: 'page-header' },
-                            { s: '菜单3', v: 'menu3', t: '这是菜单3' }];
-                        _this.saveBookmark();
-                        _this.showMenu(arrMenu, function (id) {
-                            var html= $(id).clone(false).html();
-                            _this.pasteHTML(html);
-                        });
-                    }
-                },
-            };
-            //editor = $('#elm1').xheditor({ plugins: allPlugin, tools: 'subscript,superscript,test1,test2,test3,test4,test5,test6,test7,|,Source,Fullscreen,About' });
-
-
-
-            var height = $(".help-wch-editor-height").height();
-            //console.log(height);
-            $("#articleEditor").height(height);
-            var editor = $('#articleEditor').xheditor({
-                plugins: allPlugin,
-                skin: 'nostyle',
-                showBlocktag: true,
-                forcePtag:true,
-                loadCSS: '/Assets/bootstrap/css/bootstrap.css',
-                disableContextmenu: true
-            });
-
-            //editor.addShortcuts("alt+j", function () {
-            //    var html = $("#templatePanel").clone(false).html();
-            //   editor.pasteHTML(html,false);
-            //});
-
-        });
-    </script>
-}
