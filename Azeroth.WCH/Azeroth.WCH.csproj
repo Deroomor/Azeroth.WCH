@@ -701,13 +701,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\Azeroth.Common\Azeroth.Common.csproj">
+      <Project>{037d4fb8-5c3f-479f-8099-4a0a8d3430ac}</Project>
+      <Name>Azeroth.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Azeroth.WCH.Bll\Azeroth.WCH.Bll.csproj">
       <Project>{4960ae1c-0980-4180-b268-5c4cddcbf38e}</Project>
       <Name>Azeroth.WCH.Bll</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Azeroth.WCH.Common\Azeroth.WCH.Common.csproj">
-      <Project>{b5455e0e-7a82-49ef-9ad9-5899301bdd16}</Project>
-      <Name>Azeroth.WCH.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Azeroth.WCH.IBll\Azeroth.WCH.IBll.csproj">
       <Project>{58c87e22-f9f2-4151-b3bc-64a66504d06a}</Project>

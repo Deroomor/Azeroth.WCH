@@ -43,10 +43,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Azeroth.WCH.Common\Azeroth.WCH.Common.csproj">
-      <Project>{b5455e0e-7a82-49ef-9ad9-5899301bdd16}</Project>
-      <Name>Azeroth.WCH.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Azeroth.WCH.IDal\Azeroth.WCH.IDal.csproj">
       <Project>{cc749f23-8953-43d6-a4b2-be7ab4c9d839}</Project>
       <Name>Azeroth.WCH.IDal</Name>
