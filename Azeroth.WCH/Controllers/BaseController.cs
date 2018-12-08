@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Filters;
 
 namespace Azeroth.WCH.Controllers
 {
     public class BaseController : Controller
     {
-        protected   IBll.IUserInfo BllUserInfo { set; get; }
+        public   IBll.IUserInfo BllUserInfo { set; get; }
 
         /// <summary>
         /// 微软不公开这个方法。。。
@@ -19,6 +20,7 @@ namespace Azeroth.WCH.Controllers
 
         protected override void OnAuthentication(System.Web.Mvc.Filters.AuthenticationContext filterContext)
         {
+            
             if (!this.User.Identity.IsAuthenticated)
             {
                 var loginurl= GetLoginPage(null, false);
@@ -38,6 +40,7 @@ namespace Azeroth.WCH.Controllers
 
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
+
             //throw new ArgumentException("没有权限");
             //filterContext.Result = this.View("~/Views/Home/NoAuthorization.cshtml");
             //base.OnAuthorization(filterContext);
@@ -45,13 +48,14 @@ namespace Azeroth.WCH.Controllers
 
         protected override void OnException(ExceptionContext filterContext)
         {
-
-            if(!filterContext.HttpContext.Request.IsAjaxRequest())
+            filterContext.ExceptionHandled = true;
+            if (!filterContext.HttpContext.Request.IsAjaxRequest())
             {
                 this.ViewData["ErrorMsg"] = filterContext.Exception.Message;
                 filterContext.Result = this.View("~/Views/Home/OnException.cshtml");
-                filterContext.ExceptionHandled = true;
+                return;
             }
+            filterContext.Result = this.Json(new Common.RT(filterContext.Exception.Message, string.Empty, System.Net.HttpStatusCode.InternalServerError));
         }
 
         protected internal new JsonResult Json(object data)

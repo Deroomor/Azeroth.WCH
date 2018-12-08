@@ -11,5 +11,9 @@ namespace Azeroth.WCH.IBll
         T GetById(Guid id);
 
         List<T> GetById(IEnumerable<Guid> id);
+
+        int Add(T entity);
+
+        int Add(IEnumerable<T> entity);
     }
 }

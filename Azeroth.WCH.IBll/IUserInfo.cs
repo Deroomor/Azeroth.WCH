@@ -17,5 +17,6 @@ namespace Azeroth.WCH.IBll
         /// <param name="parameter"></param>
         /// <returns></returns>
         Model.UserInfo ValidateSignIn(Model.DTO.LoginInput parameter);
+        
     }
 }

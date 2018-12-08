@@ -11,7 +11,16 @@ namespace Azeroth.WCH
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            IBll.IUserInfo bllUserInfo = new Bll.UserInfo();
+            Model.UserInfo userInfo = new Model.UserInfo() {
+                CellPhoneNumber = "15616104092",
+                 Id=Guid.NewGuid(),
+                  ImgUrl=string.Empty,
+                   LoginName="eeroom",
+                    NickName="丢了光影",
+                     Pwd="123"
+            };
+            bllUserInfo.Add(userInfo);
         }
     }
 }

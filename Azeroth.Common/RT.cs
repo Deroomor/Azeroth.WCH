@@ -14,9 +14,11 @@ namespace Azeroth.Common
         {
 
         }
-        public RT(string msg)
+        public RT(string msg,object body, System.Net.HttpStatusCode status= System.Net.HttpStatusCode.OK)
         {
             this.Msg = msg;
+            this.Body = body;
+            this.Status = status;
         }
 
         public System.Net.HttpStatusCode Status { get; set; }

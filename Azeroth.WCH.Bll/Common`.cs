@@ -42,5 +42,17 @@ namespace Azeroth.WCH.Bll
             var rt= System.Runtime.Remoting.Messaging.CallContext.GetData(Azeroth.Common.Flags.UserInfo) as Model.UserInfo;
             return rt;
         }
+
+        public int Add(T entity)
+        {
+             this.DbContext.Set<T>().Add(entity);
+            return this.DbContext.SaveChanges();
+        }
+
+        public int Add(IEnumerable<T> entity)
+        {
+            this.DbContext.Set<T>().AddRange(entity);
+            return this.DbContext.SaveChanges();
+        }
     }
 }

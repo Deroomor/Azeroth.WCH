@@ -23,6 +23,7 @@ namespace Azeroth.WCH.Model
         [Required(AllowEmptyStrings =true)]
         [StringLength(128)]
         public String LoginName {set;get;}
+
         /// <summary>
         ///昵称
         /// </summary>
