@@ -67,6 +67,8 @@
     <Compile Include="DTO\MenuInfo.cs" />
     <Compile Include="DTO\UserInfo.cs" />
     <Compile Include="Enum.cs" />
+    <Compile Include="IDependency.cs" />
+    <Compile Include="IPrimaryKey.cs" />
     <Compile Include="TbIndex.cs">
       <DependentUpon>Entity.tt</DependentUpon>
     </Compile>

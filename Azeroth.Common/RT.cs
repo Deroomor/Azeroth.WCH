@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Azeroth.WCH.Common
+namespace Azeroth.Common
 {
     /// <summary>
     /// 统一格式的json返回结果
     /// </summary>
     public class RT
     {
-        public RT(object body)
+        public RT()
         {
-            this.Body = body;
+
+        }
+        public RT(string msg)
+        {
+            this.Msg = msg;
         }
 
         public System.Net.HttpStatusCode Status { get; set; }

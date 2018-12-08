@@ -10,30 +10,26 @@ namespace Azeroth.WCH.Model
     /// 文章表
     /// <summary>
     [Table("Document")]
-    public partial class Document
+    public partial class Document:IPrimaryKey
     {
         /// <summary>
         ///主键
         /// </summary>
-        [Required]
-        [StringLength(36)]
         [Key]
-        public String Id {set;get;}
+        public Guid Id {set;get;}
         /// <summary>
-        ///作者
+        ///
         /// </summary>
-        [Required]
-        [StringLength(36)]
-        public String Author {set;get;}
+        public Nullable<Guid> AuthorId {set;get;}
         /// <summary>
         ///正文
         /// </summary>
-        [Required]
+        [Required(AllowEmptyStrings =true)]
         public String Content {set;get;}
         /// <summary>
         ///标题
         /// </summary>
-        [Required]
+        [Required(AllowEmptyStrings =true)]
         [StringLength(128)]
         public String Title {set;get;}
         /// <summary>
@@ -44,7 +40,7 @@ namespace Azeroth.WCH.Model
         /// <summary>
         ///摘要
         /// </summary>
-        [Required]
+        [Required(AllowEmptyStrings =true)]
         [StringLength(512)]
         public String ContentAbstract {set;get;}
         /// <summary>

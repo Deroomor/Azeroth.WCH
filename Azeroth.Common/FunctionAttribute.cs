@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Azeroth.WCH.Common
+namespace Azeroth.Common
 {
     public class FunctionCommentAttribute : System.Attribute
     {

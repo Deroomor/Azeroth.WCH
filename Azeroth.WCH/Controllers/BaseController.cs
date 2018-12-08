@@ -9,6 +9,11 @@ namespace Azeroth.WCH.Controllers
 {
     public class BaseController : Controller
     {
+        protected   IBll.IUserInfo BllUserInfo { set; get; }
+
+        /// <summary>
+        /// 微软不公开这个方法。。。
+        /// </summary>
         static Func<string, bool, string> GetLoginPage =  (Func<string,bool,string>)System.Delegate.CreateDelegate(typeof(Func<string,bool,string>), 
             typeof(System.Web.Security.FormsAuthentication).GetMethod("GetLoginPage", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static, null,new Type[] { typeof(string), typeof(bool) }, null));
 
@@ -20,10 +25,13 @@ namespace Azeroth.WCH.Controllers
                 filterContext.Result = this.Redirect(loginurl);
                 return;
             }
+            string id = this.User.Identity.Name;
             System.Web.Security.FormsAuthentication.SetAuthCookie(this.User.Identity.Name, true);
-            var userinfo = this.Session["userInfo"] as Model.DTO.UserInfo;
-            userinfo = userinfo ?? new Model.DTO.UserInfo() {  Id=new Guid(this.User.Identity.Name), Name=System.IO.Path.GetRandomFileName()};
-            this.Session["userInfo"] = userinfo;
+            var userInfo = this.Session.GetValue(SessionIndex.UserInfo) as Model.UserInfo;
+            if(userInfo==null)//session丢失或者过期，重新从数据库取
+                userInfo = this.BllUserInfo.GetById(Guid.Parse(id));
+            this.Session.SetValue(SessionIndex.UserInfo, userInfo);
+
             var lstMenu = Model.DTO.MenuInfo.GetList();
             this.ViewData["lstMenu"] = lstMenu;
         }

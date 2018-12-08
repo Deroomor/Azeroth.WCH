@@ -10,7 +10,7 @@ namespace Azeroth.WCH.Model
     {
         public DbContext() : base("name=master")
         {
-            CategoryIndex.Finance.ToTXT();
+            
         }    
         /// <summary>
         /// 文章表

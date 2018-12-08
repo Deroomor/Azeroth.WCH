@@ -8,26 +8,24 @@ namespace Azeroth.WCH.Controllers
 {
     public class AccountController : Controller
     {
+        IBll.IUserInfo BllUserInfo { set; get; }
+
         // GET: Account
         public ActionResult Login()
         {
             return View();
         }
 
-        public ActionResult SignIn(Model.DTO.UserInfo userInfo)
+        public ActionResult SignIn(Model.DTO.LoginInput parameter)
         {
-            userInfo = userInfo ?? new Model.DTO.UserInfo();
-            this.ViewData["userInfo"] = userInfo;
-            if (string.IsNullOrEmpty(userInfo.Name) || string.IsNullOrEmpty(userInfo.Password))
-                return View();
-
-            if (userInfo.Password != "123")
-                return this.View();
-            userInfo.Id = Guid.NewGuid();
-            this.Session["userInfo"] = userInfo;
+            if (this.ModelState.IsValid)
+                throw new ValidateModelException(this.ModelState);
+            var userInfo= this.BllUserInfo.ValidateSignIn(parameter);
+            if (userInfo==null)
+                return this.Json(new Common.RT("用户名或密码错误") {  Status= System.Net.HttpStatusCode.Unauthorized});
             System.Web.Security.FormsAuthentication.SetAuthCookie(userInfo.Id.ToString(), true);
             var target= System.Web.Security.FormsAuthentication.GetRedirectUrl(string.Empty, true);
-            return this.Redirect(target);
+           return  this.Json(new Common.RT("登陆成功") {  Body= new { target} });
         }
 
         public ActionResult Signout()

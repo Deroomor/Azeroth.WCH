@@ -59,7 +59,7 @@ namespace Azeroth.WCH.Model
             this.WriteLine(string.Format("{0}/// {1}",new String(' ',4),kv.Value.Replace("\r\n"," ").Replace("\r"," ").Replace("\n"," ")));
             this.WriteLine(string.Format("{0}/// <summary>",new String(' ',4)));
             this.WriteLine(string.Format("{0}[Table(\"{1}\")]",new String(' ',4),kv.Key));
-            this.WriteLine(string.Format("{0}public partial class {1}", new String(' ', 4),kv.Key ));
+            this.WriteLine(string.Format("{0}public partial class {1}:IPrimaryKey", new String(' ', 4),kv.Key ));
             this.WriteLine(new String(' ', 4) + "{");
             System.Data.DataTable schemaTable;
             using (var cmd = cnn.CreateCommand())
@@ -95,7 +95,7 @@ namespace Azeroth.WCH.Model
                 this.WriteLine(string.Format("{0}///{1}", new String(' ', 8), comment));
                 this.WriteLine(string.Format("{0}/// </summary>", new String(' ', 8)));
                 if(!allowDBNull && colType.Equals("String"))
-                    this.WriteLine(string.Format("{0}[Required]",new String(' ',8)));
+                    this.WriteLine(string.Format("{0}[Required(AllowEmptyStrings =true)]",new String(' ',8)));
                 if(colType.Equals("String") && columnSize<int.MaxValue && columnSize>0)
                     this.WriteLine(string.Format("{0}[StringLength({1})]",new String(' ',8),columnSize));
                 if(isKey)

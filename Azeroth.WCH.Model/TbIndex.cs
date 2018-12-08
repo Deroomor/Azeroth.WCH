@@ -10,15 +10,13 @@ namespace Azeroth.WCH.Model
     /// 杀杀杀
     /// <summary>
     [Table("TbIndex")]
-    public partial class TbIndex
+    public partial class TbIndex:IPrimaryKey
     {
         /// <summary>
         ///逐渐
         /// </summary>
-        [Required]
-        [StringLength(36)]
         [Key]
-        public String Id {set;get;}
+        public Guid Id {set;get;}
         /// <summary>
         ///
         /// </summary>

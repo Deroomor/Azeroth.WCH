@@ -1,8 +1,8 @@
 ﻿@{
     Layout = null;
 
-    Azeroth.WCH.Model.DTO.UserInfo userInfo = this.Session["userInfo"] as  Azeroth.WCH.Model.DTO.UserInfo;
-    userInfo = userInfo ?? new Azeroth.WCH.Model.DTO.UserInfo() {  Name="游客"};
+    Azeroth.WCH.Model.DTO.LoginInput userInfo = this.Session["userInfo"] as  Azeroth.WCH.Model.DTO.LoginInput;
+    userInfo = userInfo ?? new Azeroth.WCH.Model.DTO.LoginInput() {  Name="游客"};
 
     List<Azeroth.WCH.Model.DTO.MenuInfo> lstMenu = this.ViewData["lstMenu"] as List<Azeroth.WCH.Model.DTO.MenuInfo>;
     lstMenu.ForEach(x => x.Url = (x.Url ?? string.Empty).ToLower());//全部转小写
