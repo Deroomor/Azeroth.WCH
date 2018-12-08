@@ -9,19 +9,18 @@ namespace Azeroth.WCH.Controllers
     public class AccountController : Controller
     {
         // GET: Account
-        [System.Web.Mvc.HttpGet]
         public ActionResult Login()
         {
             return View();
         }
 
-        [HttpPost]
-        public ActionResult Login(Model.DTO.UserInfo userInfo)
+        public ActionResult SignIn(Model.DTO.UserInfo userInfo)
         {
             userInfo = userInfo ?? new Model.DTO.UserInfo();
             this.ViewData["userInfo"] = userInfo;
             if (string.IsNullOrEmpty(userInfo.Name) || string.IsNullOrEmpty(userInfo.Password))
                 return View();
+
             if (userInfo.Password != "123")
                 return this.View();
             userInfo.Id = Guid.NewGuid();

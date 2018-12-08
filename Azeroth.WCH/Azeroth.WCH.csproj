@@ -633,8 +633,6 @@
     <Compile Include="Areas\Wages\Controllers\SocialSecurityController.cs" />
     <Compile Include="Areas\Wages\Models\Class1.cs" />
     <Compile Include="Areas\Wages\WagesAreaRegistration.cs" />
-    <Compile Include="Common\Class1.cs" />
-    <Compile Include="Common\FunctionAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\AuthorController.cs" />
