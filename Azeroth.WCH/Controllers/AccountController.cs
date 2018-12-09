@@ -18,15 +18,16 @@ namespace Azeroth.WCH.Controllers
 
         protected override void OnException(ExceptionContext filterContext)
         {
+            filterContext.ExceptionHandled = true;
             if (!filterContext.HttpContext.Request.IsAjaxRequest())
             {
                 this.ViewData["ErrorMsg"] = filterContext.Exception.Message;
                 filterContext.Result = this.View("~/Views/Home/OnException.cshtml");
-                filterContext.ExceptionHandled = true;
+                return;
             }
 
             filterContext.Result = this.Json(new Common.RT(filterContext.Exception.Message, string.Empty, System.Net.HttpStatusCode.InternalServerError));
-            filterContext.ExceptionHandled = true;
+           
 
         }
 
