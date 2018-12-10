@@ -133,7 +133,7 @@
             $("#btnOk").click(function () {
                 var btn = $(this);
                 if (btn.hasClass("disabled"))
-                    return;
+                    return false;
                 btn.toggleClass("disabled");
                 var form = $(this).parents("form");
                 var url = form.serialize();

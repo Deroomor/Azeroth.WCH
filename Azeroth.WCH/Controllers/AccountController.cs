@@ -27,13 +27,12 @@ namespace Azeroth.WCH.Controllers
             }
 
             filterContext.Result = this.Json(new Common.RT(filterContext.Exception.Message, string.Empty, System.Net.HttpStatusCode.InternalServerError));
-           
 
         }
 
         public ActionResult SignIn(Model.DTO.LoginInput parameter)
         {
-            System.Threading.Thread.Sleep(5 * 1000);
+            System.Threading.Thread.Sleep(1 * 1000);
             if (!this.ModelState.IsValid)
                 throw new ArgumentException("用户名和密码不能为空");
             var userInfo= this.BllUserInfo.ValidateSignIn(parameter);

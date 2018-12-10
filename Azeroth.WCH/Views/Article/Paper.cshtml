@@ -31,7 +31,8 @@
 
         .btn-float-right {
             position: absolute;
-            margin-top: 40px;
+            /*margin-top: 40px;*/
+            display:inline-block;
         }
     </style>
 
@@ -139,7 +140,7 @@
             $("#btnSave").click(function () {
                 var btn = $(this);
                 if (btn.hasClass("disabled"))
-                    return;
+                    return false;
                 btn.toggleClass("disabled");
                 var form = $(this).parents("form");
                 $.post(form.attr("action"), {}, function (rt) {
@@ -185,7 +186,7 @@
                     </div>
                     <div class="form-group">
                         <label for="txtContentAbstract">摘要</label>
-                        <textarea class="form-control" rows="3" name="ContentAbstract" id="txtContentAbstract"></textarea>
+                        <textarea  class="form-control" rows="3" name="ContentAbstract" id="txtContentAbstract" style="resize:none"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="fileCoverUrl">封面图片</label>
@@ -199,8 +200,12 @@
             </div>
 
         </div>
-
-        <button id="btnSave" type="submit" class="btn btn-primary btn-float-right">保存</button>
+      
+                <div class="btn-float-right">
+             <button id="btnSave" type="submit" class="btn btn-primary btn-block">保存</button>
+            <button id="btnSave" type="button" class="btn btn-primary btn-block">发布</button>
+        </div>
+       
     </form>
 </div>
  
