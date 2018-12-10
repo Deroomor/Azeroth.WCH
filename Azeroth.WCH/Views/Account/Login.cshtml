@@ -93,7 +93,7 @@
             </div>
           
             <div class="col-xs-24 col-md-8">
-                <form class="form-signin" method="post" action="./SignIn">
+                <form class="form-signin" method="post"  action="@(this.Request.Url.PathAndQuery)">
                     <h2 class="form-signin-heading">用户登录</h2>
                     <label for="inputEmail" class="sr-only">用户名</label>
                     <input name="Name" type="text" id="inputEmail" class="form-control" placeholder="用户名" value="" required autofocus>
@@ -129,34 +129,38 @@
     <script src="~/Assets/bootstrap-toastr-2.1.4/scripts/toastr.js"></script>
     <script type="text/javascript">
         $(function () {
-
             $("#btnOk").click(function () {
                 var btn = $(this);
                 if (btn.hasClass("disabled"))
                     return false;
+                toastr.options.positionClass = "toast-middle-center";
+                toastr.options.timeOut = 0;
+                toastr.options.extendedTimeOut = 0;
+                toastr.clear();
+                toastr.info("正在登录");
                 btn.toggleClass("disabled");
                 var form = $(this).parents("form");
-                var url = form.serialize();
-                $.post(form.attr("action")+"?"+url, {}, function (rt) {
+                var parameter = {};
+                $.each(form.serializeArray(), function (index,el) {
+                    parameter[el.name] = el.value;
+                });
+                $.post(form.attr("action"), parameter, function (rt) {
                     btn.toggleClass("disabled");
+                    toastr.clear();
+                    toastr.options.timeOut = 1000;
                     if (rt.Status != 200) {
-                        toastr.options.positionClass = "toast-middle-center";
-                        toastr.options.timeOut = 1000;
-                        toastr.clear();
                         toastr.error(rt.Msg);
-                        //$("form .alert-danger strong").text(rt.Msg);
-                        //$("form .alert-danger").show();
-                        //window.setTimeout(function () {
-                        //    $("form .alert-danger").hide();
-                        //},2000);
-                        return;
+                    } else {
+                        toastr.options.onHidden = function () {
+                            window.location.href = rt.Body;
+                        }
+                        toastr.info(rt.Msg+",即将跳转到原页面");
                     }
-                    window.location.href = rt.Body;
                 });
                 return false;
-
             });
         });
+
     </script>
 </body>
 </html>

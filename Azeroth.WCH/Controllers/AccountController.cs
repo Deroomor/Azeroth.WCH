@@ -11,6 +11,7 @@ namespace Azeroth.WCH.Controllers
        public  IBll.IUserInfo BllUserInfo { set; get; }
 
         // GET: Account
+        [HttpGet]
         public ActionResult Login()
         {
             return View();
@@ -30,7 +31,8 @@ namespace Azeroth.WCH.Controllers
 
         }
 
-        public ActionResult SignIn(Model.DTO.LoginInput parameter)
+        [HttpPost]
+        public ActionResult Login(Model.DTO.LoginInput parameter)
         {
             System.Threading.Thread.Sleep(1 * 1000);
             if (!this.ModelState.IsValid)
@@ -40,7 +42,7 @@ namespace Azeroth.WCH.Controllers
                 return this.Json(new Common.RT("用户名或密码错误",string.Empty, System.Net.HttpStatusCode.Unauthorized) );
             System.Web.Security.FormsAuthentication.SetAuthCookie(userInfo.Id.ToString(), true);
             var target= System.Web.Security.FormsAuthentication.GetRedirectUrl(string.Empty, true);
-           return  this.Json(new Common.RT(string.Empty,target));
+           return  this.Json(new Common.RT("登陆成功",target));
         }
 
         public ActionResult Signout()
