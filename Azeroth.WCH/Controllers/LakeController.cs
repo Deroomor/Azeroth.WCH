@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Azeroth.WCH.Controllers
 {
-    public class BlogsController : BaseController
+    public class LakeController : BaseController
     {
         // GET: Blogs
         public ActionResult Index()

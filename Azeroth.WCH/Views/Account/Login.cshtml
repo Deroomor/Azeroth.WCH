@@ -13,7 +13,7 @@
     <meta name="author" content="">
     <link rel="icon" href="~/favicon.ico">
 
-    <title>@(this.ViewData["title"])</title>
+    <title>用户登录</title>
 
     <!-- Bootstrap core CSS -->
     @*<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">*@
@@ -131,11 +131,14 @@
         $(function () {
 
             $("#btnOk").click(function () {
-
+                var btn = $(this);
+                if (btn.hasClass("disabled"))
+                    return;
+                btn.toggleClass("disabled");
                 var form = $(this).parents("form");
                 var url = form.serialize();
                 $.post(form.attr("action")+"?"+url, {}, function (rt) {
-
+                    btn.toggleClass("disabled");
                     if (rt.Status != 200) {
                         toastr.options.positionClass = "toast-middle-center";
                         toastr.options.timeOut = 1000;
@@ -149,7 +152,6 @@
                         return;
                     }
                     window.location.href = rt.Body;
-
                 });
                 return false;
 

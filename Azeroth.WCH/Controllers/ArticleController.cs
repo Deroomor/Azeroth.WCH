@@ -9,20 +9,22 @@ namespace Azeroth.WCH.Controllers
     [Common.FunctionComment("文章")]
     public class ArticleController : BaseController
     {
-        [Common.FunctionComment("页面-新文章")]
+        [Common.FunctionComment("页面-详情")]
         public ActionResult Index()
         {
             return View();
         }
-        [Common.FunctionComment("页面-编辑文章")]
-        public ActionResult Edit()
+
+        [Common.FunctionComment("页面-新文章")]
+        public ActionResult Paper()
         {
             return View();
         }
-        [Common.FunctionComment("页面-文章详情")]
-        public ActionResult Play()
+
+        public ActionResult Save()
         {
-            return View();
+            System.Threading.Thread.Sleep(2*1000);
+            return this.Json(new Common.RT() { Status = System.Net.HttpStatusCode.ExpectationFailed,Msg="保存失败" });
         }
     }
 }

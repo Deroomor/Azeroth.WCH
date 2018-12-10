@@ -35,15 +35,13 @@ namespace Azeroth.WCH.Model.DTO
             List<MenuInfo> lst = new List<MenuInfo>();
             int order = 0;
 
-            MenuInfo value0 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "随笔", Order = order++, Pid = Guid.Empty, Url = "/blogs/index" };
+            MenuInfo value0 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "迷津", Order = order++, Pid = Guid.Empty, Url = "/lake/index" };
             lst.Add(value0);
             MenuInfo value1 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "个人中心", Order = order++, Pid = value0.Id, Url = "/author/index" };
             lst.Add(value1);
-            MenuInfo value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "新随笔", Order = order++, Pid = value1.Id, Url = "/article/index" };
+            MenuInfo value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "随笔", Order = order++, Pid = value1.Id, Url = "/article/paper" };
             lst.Add(value2);
-            value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "编辑", Order = order++, Pid = value1.Id, Url = "/article/edit" };
-            lst.Add(value2);
-            value1 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "详情", Order = order++, Pid = value0.Id, Url = "/article/play" };
+            value1 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "详情", Order = order++, Pid = value0.Id, Url = "/article/index" };
             lst.Add(value1);
 
             
