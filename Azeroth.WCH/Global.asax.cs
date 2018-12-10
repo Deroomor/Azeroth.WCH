@@ -26,9 +26,13 @@ namespace Azeroth.WCH
 
         private void AutofacInit()
         {
+            
             Type flagMeta = typeof(Model.IAutofacFlag);
             //bin下的所有程序集
-            System.Reflection.Assembly[] allAssembly = AppDomain.CurrentDomain.GetAssemblies().ToArray();
+            List<System.Reflection.Assembly> lst=new List<System.Reflection.Assembly>();
+        //  var    System.Reflection.Assembly.LoadFrom("Azeroth.WCH.Bll.dll");
+            System.Reflection.Assembly[] allAssembly = System.Web.Compilation.BuildManager.GetReferencedAssemblies().Cast<System.Reflection.Assembly>().ToArray();
+                //AppDomain.CurrentDomain.GetAssemblies().ToArray();
             //标识接口派生的类和接口
             var allMeta = allAssembly.SelectMany(x => x.GetTypes()).Where(x => flagMeta.IsAssignableFrom(x) && x != flagMeta).ToArray();
 
