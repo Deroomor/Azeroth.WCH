@@ -34,7 +34,7 @@ namespace Azeroth.WCH.Controllers
         [HttpPost]
         public ActionResult Login(Model.DTO.LoginInput parameter)
         {
-            System.Threading.Thread.Sleep(1 * 1000);
+            System.Threading.Thread.Sleep(2 * 1000);
             if (!this.ModelState.IsValid)
                 throw new ArgumentException("用户名和密码不能为空");
             var userInfo= this.BllUserInfo.ValidateSignIn(parameter);

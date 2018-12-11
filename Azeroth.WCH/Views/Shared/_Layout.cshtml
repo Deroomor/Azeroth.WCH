@@ -49,7 +49,7 @@
     <link href="~/Assets/bootstrap-toastr-2.1.4/content/toastr.css" rel="stylesheet" />
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="~/Assets/bootstrap/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="~/Assets/bootstrap/js/ie-emulation-modes-warning.js"></script>
+    @*<script src="~/Assets/bootstrap/js/ie-emulation-modes-warning.js"></script>*@
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
         <script src="~/Assets/bootstrap/js/html5shiv.min.js"></script>
@@ -87,9 +87,42 @@
         .breadcrumb{
             margin-bottom:10px;
         }
+        .executing {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            overflow: hidden;
+            z-index: 9999;
+            background-color: #808080;
+            opacity: 0.4;
+        }
+
     </style>
 
     @(RenderSection("style", false))
+
+      <script src="~/Assets/js/jquery-1.12.4.js"></script>
+    <script src="~/Assets/bootstrap/js/bootstrap.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="~/Assets/bootstrap/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="~/Assets/bootstrap-toastr-2.1.4/scripts/toastr.js"></script>
+    <script type="text/javascript">
+        //$(function () {
+        //    $(".sidebar a[data-toggle=collapse]").bind("click", {}, function () {
+        //        //处理菜单的折叠，右边的指示箭头
+        //        $(".sidebar .in").collapse("hide");
+        //        //var triggers = $(".sidebar a[data-toggle=collapse]").not(this);
+        //        //triggers.find(".glyphicon-chevron-down").hide();
+        //        //triggers.find(".glyphicon-chevron-right").show();
+        //        //$(this).find(".glyphicon-chevron-down").toggle();
+        //        //$(this).find(".glyphicon-chevron-right").toggle();
+        //    });
+        //});
+
+    </script>
+    @(RenderSection("script", false))
 </head>
 
 <body>
@@ -150,25 +183,9 @@
         </footer>
     </div>
 
-    <script src="~/Assets/js/jquery-1.12.4.js"></script>
-    <script src="~/Assets/bootstrap/js/bootstrap.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="~/Assets/bootstrap/js/ie10-viewport-bug-workaround.js"></script>
-    <script src="~/Assets/bootstrap-toastr-2.1.4/scripts/toastr.js"></script>
-    <script type="text/javascript">
-        //$(function () {
-        //    $(".sidebar a[data-toggle=collapse]").bind("click", {}, function () {
-        //        //处理菜单的折叠，右边的指示箭头
-        //        $(".sidebar .in").collapse("hide");
-        //        //var triggers = $(".sidebar a[data-toggle=collapse]").not(this);
-        //        //triggers.find(".glyphicon-chevron-down").hide();
-        //        //triggers.find(".glyphicon-chevron-right").show();
-        //        //$(this).find(".glyphicon-chevron-down").toggle();
-        //        //$(this).find(".glyphicon-chevron-right").toggle();
-        //    });
-        //});
 
-    </script>
-    @(RenderSection("script", false))
+        <div id="" class="executing fade">
+
+    </div>
 </body>
 </html>

@@ -46,10 +46,76 @@
             margin: 10px 0 0 0;
         }
 
+         .executing {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            overflow: hidden;
+            z-index: 10001;
+            background-color: #808080;
+            display:none;
+            opacity:0.4;
+        }
 
     </style>
 
+     <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    @*<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>*@
+    @*<script src="~/Assets/js/jquery-1.9.1.js"></script>*@
+    <script src="~/Assets/js/jquery-1.12.4.js"></script>
+    @*<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
+    <script src="~/Assets/bootstrap/js/bootstrap.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    @*<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>*@
+    <script src="~/Assets/bootstrap/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="~/Assets/bootstrap-toastr-2.1.4/scripts/toastr.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btnOk").click(function () {
+                var form = $(this).parents("form");
+                var parameter = {};
+                $.each(form.serializeArray(), function (index, el) {
+                    parameter[el.name] = el.value;
+                });
+                zlpost(form.attr("action"), parameter, function (rt) {
+                    toastr.options.onHidden = function () {
+                        window.location.href = rt.Body;
+                    }
+                    toastr.info(rt.Msg + ",即将跳转到原页面");
+                }, "正在登录...");
+                return false;
+            });
+        });
 
+
+        function zlpost(url, parameter, handler, title) {
+            var divexecuting = $(".executing");
+            if (divexecuting.data("flag"))
+                return;
+            divexecuting.show();
+            divexecuting.data("flag","1");
+            toastr.options.positionClass = "toast-middle-center";
+            toastr.options.timeOut = 0;
+            toastr.options.extendedTimeOut = 0;
+            toastr.clear();
+            toastr.info(title || "处理中...");
+            $.post(url, parameter, function (rt) {
+                divexecuting.data("flag", "");
+                divexecuting.hide();
+                toastr.clear();
+                toastr.options.timeOut = 1000;
+                if (rt.Status != 200) {
+                    toastr.error(rt.Msg);
+                    return;
+                }
+                handler(rt);
+            });
+        }
+    </script>
 </head>
 
 <body>
@@ -111,56 +177,8 @@
             </div>
             
         </div>
-
     </div>
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    @*<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>*@
-    @*<script src="~/Assets/js/jquery-1.9.1.js"></script>*@
-    <script src="~/Assets/js/jquery-1.12.4.js"></script>
-    @*<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
-    <script src="~/Assets/bootstrap/js/bootstrap.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    @*<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>*@
-    <script src="~/Assets/bootstrap/js/ie10-viewport-bug-workaround.js"></script>
-    <script src="~/Assets/bootstrap-toastr-2.1.4/scripts/toastr.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            $("#btnOk").click(function () {
-                var btn = $(this);
-                if (btn.hasClass("disabled"))
-                    return false;
-                toastr.options.positionClass = "toast-middle-center";
-                toastr.options.timeOut = 0;
-                toastr.options.extendedTimeOut = 0;
-                toastr.clear();
-                toastr.info("正在登录");
-                btn.toggleClass("disabled");
-                var form = $(this).parents("form");
-                var parameter = {};
-                $.each(form.serializeArray(), function (index,el) {
-                    parameter[el.name] = el.value;
-                });
-                $.post(form.attr("action"), parameter, function (rt) {
-                    btn.toggleClass("disabled");
-                    toastr.clear();
-                    toastr.options.timeOut = 1000;
-                    if (rt.Status != 200) {
-                        toastr.error(rt.Msg);
-                    } else {
-                        toastr.options.onHidden = function () {
-                            window.location.href = rt.Body;
-                        }
-                        toastr.info(rt.Msg+",即将跳转到原页面");
-                    }
-                });
-                return false;
-            });
-        });
-
-    </script>
+    <div data-flag="" class="executing ">
+    </div>
 </body>
 </html>
