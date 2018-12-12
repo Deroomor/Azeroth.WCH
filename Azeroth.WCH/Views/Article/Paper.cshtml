@@ -110,7 +110,7 @@
                     }
                 },
             };
-            var editor = $('#articleEditor').xheditor({
+            window.editor = $('#articleEditor').xheditor({
                 plugins: myplugin,
                 skin: 'nostyle',
                 showBlocktag: true,
@@ -138,19 +138,30 @@
         $(function () {
 
             $("#btnSave").click(function () {
-                var btn = $(this);
-                if (btn.hasClass("disabled"))
-                    return false;
-                btn.toggleClass("disabled");
                 var form = $(this).parents("form");
-                $.post(form.attr("action"), {}, function (rt) {
-                    btn.toggleClass("disabled");
-                    toastr.options.positionClass = "toast-middle-center";
-                    toastr.options.timeOut = 1000;
-                    toastr.clear();
-                    var fn = rt.Status == 200 ? toastr.info : toastr.error
-                    fn(rt.Msg);
+                var parameter = {};
+                $.each(form.serializeArray(), function (index, el) {
+                    parameter[el.name] = el.value;
                 });
+
+                $.ajax({
+                    url: form.attr("action"),
+                    method:"POST",
+                    processData: false,
+
+                    data: JSON.stringify(parameter),
+                    contentType:"application/json",
+                    success: function (rt) {
+                        console.log(rt.Body.Id);
+                        $(form).find("input[name=Id]").val(rt.Body.Id);
+                    }
+                });
+
+
+                //postwrapper(form.attr("action"), parameter, function (rt) {
+                //    console.log(rt.Body.Id);
+                //    $(form).find("input[name=Id]").val(rt.Body.Id);
+                //},"保存中...");
                 return false;
             });
         });
@@ -203,7 +214,7 @@
       
                 <div class="btn-float-right">
              <button id="btnSave" type="submit" class="btn btn-primary btn-block">保存</button>
-            <button id="btnSave" type="button" class="btn btn-primary btn-block">发布</button>
+            <button id="btnPublish" type="button" class="btn btn-primary btn-block">发布</button>
         </div>
        
     </form>

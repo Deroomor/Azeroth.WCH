@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="IArticle.cs" />
     <Compile Include="ICommon`.cs" />
     <Compile Include="IUserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

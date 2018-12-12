@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Azeroth.WCH.Bll
 {
-    public abstract class Common<T>: Model.IAutofacFlag  where T : class,Model.IPrimaryKey
+    public abstract class Common<T>: IBll.ICommon<T>,Model.IAutofacFlag  where T : class,Model.IPrimaryKey
     {
         protected Model.DbContext DbContext { private set; get; }
 
@@ -54,5 +54,30 @@ namespace Azeroth.WCH.Bll
             this.DbContext.Set<T>().AddRange(entity);
             return this.DbContext.SaveChanges();
         }
+
+
+        public int EditById<S>(T entity, System.Linq.Expressions.Expression<Func<T, S>> selector)
+        {
+            var wrapper= this.DbContext.Entry(entity);
+            wrapper.State = System.Data.Entity.EntityState.Unchanged;
+            List<string> lstName= GetPropertyName(selector.Body);
+            lstName.ForEach(x => wrapper.Property(x).IsModified = true);
+            var rt = this.DbContext.SaveChanges();
+            return rt;
+            
+        }
+
+        private List<string> GetPropertyName(System.Linq.Expressions.Expression expression)
+        {
+            var mexp= expression as System.Linq.Expressions.MemberExpression;
+            if (mexp != null)
+                return new List<string>() { mexp.Member.Name};
+            var nexp = expression as System.Linq.Expressions.NewExpression;
+            if (nexp != null)
+                return nexp.Members.Select(x => x.Name).ToList();
+            throw new ArgumentException("不识别的表达式："+expression.ToString());
+        }
+
+
     }
 }

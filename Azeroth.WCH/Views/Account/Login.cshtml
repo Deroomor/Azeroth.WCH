@@ -73,6 +73,7 @@
     @*<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>*@
     <script src="~/Assets/bootstrap/js/ie10-viewport-bug-workaround.js"></script>
     <script src="~/Assets/bootstrap-toastr-2.1.4/scripts/toastr.js"></script>
+    <script src="~/Assets/js/azeroth.js"></script>
     <script type="text/javascript">
         $(function () {
             $("#btnOk").click(function () {
@@ -81,7 +82,7 @@
                 $.each(form.serializeArray(), function (index, el) {
                     parameter[el.name] = el.value;
                 });
-                zlpost(form.attr("action"), parameter, function (rt) {
+                postwrapper(form.attr("action"), parameter, function (rt) {
                     toastr.options.onHidden = function () {
                         window.location.href = rt.Body;
                     }
@@ -92,29 +93,7 @@
         });
 
 
-        function zlpost(url, parameter, handler, title) {
-            var divexecuting = $(".executing");
-            if (divexecuting.data("flag"))
-                return;
-            divexecuting.show();
-            divexecuting.data("flag","1");
-            toastr.options.positionClass = "toast-middle-center";
-            toastr.options.timeOut = 0;
-            toastr.options.extendedTimeOut = 0;
-            toastr.clear();
-            toastr.info(title || "处理中...");
-            $.post(url, parameter, function (rt) {
-                divexecuting.data("flag", "");
-                divexecuting.hide();
-                toastr.clear();
-                toastr.options.timeOut = 1000;
-                if (rt.Status != 200) {
-                    toastr.error(rt.Msg);
-                    return;
-                }
-                handler(rt);
-            });
-        }
+     
     </script>
 </head>
 
