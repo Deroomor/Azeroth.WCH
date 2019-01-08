@@ -639,6 +639,7 @@
     <Content Include="Assets\xhEditor\xheditor_skin\vista\img\wmp.gif" />
     <Content Include="Assets\xhEditor\xheditor_skin\vista\img\wordimg.gif" />
     <Content Include="Assets\xhEditor\xheditor_skin\vista\ui.css" />
+    <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Index.html" />
     <Content Include="Web.config">
@@ -674,6 +675,13 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RoleInfoController.cs" />
     <Compile Include="Controllers\UserInfoController.cs" />
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
