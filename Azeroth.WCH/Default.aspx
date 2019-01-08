@@ -8,12 +8,16 @@
     <title></title>
 </head>
 <body>
-    <p>
+    <div>
+        原值
         <input name="plainText" value="123456" />
-    </p>
-    <p>
-
-    </p>
-    
+    </div>
+    <div>
+         <input type="submit" value="Crpytory" />
+    </div>
+    <div>
+        结果
+        <p></p>
+    </div>
 </body>
 </html>
