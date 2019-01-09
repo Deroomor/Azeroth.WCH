@@ -10,7 +10,6 @@ namespace Azeroth.WCH.Model
     {
         public DbContext() : base("name=master")
         {
-            
         }    
         /// <summary>
         /// 文章表
