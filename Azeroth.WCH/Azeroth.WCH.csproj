@@ -360,6 +360,9 @@
     <Content Include="Assets\bootstrap-toastr-2.1.4\content\toastr.less" />
     <Content Include="Assets\bootstrap-toastr-2.1.4\content\toastr.scss" />
     <Content Include="Assets\bootstrap-toastr-2.1.4\scripts\toastr.min.js.map" />
+    <Content Include="Areas\Attendance\Views\web.config" />
+    <Content Include="Areas\Attendance\Views\Schedul\Index.cshtml" />
+    <Content Include="Areas\Attendance\Views\_ViewStart.cshtml" />
     <None Include="Assets\js\jquery-1.12.4.intellisense.js" />
     <Content Include="Assets\js\azeroth.js" />
     <Content Include="Assets\js\jquery-1.12.4.js" />
@@ -646,6 +649,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Attendance\AttendanceAreaRegistration.cs" />
+    <Compile Include="Areas\Attendance\Controllers\SchedulController.cs" />
     <Compile Include="Code\Extension.cs" />
     <Compile Include="Code\ValidateModelException.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -732,7 +737,10 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Areas\Attendance\Models\" />
+    <Folder Include="Areas\Attendance\Views\Shared\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Azeroth.Common\Azeroth.Common.csproj">
       <Project>{037d4fb8-5c3f-479f-8099-4a0a8d3430ac}</Project>

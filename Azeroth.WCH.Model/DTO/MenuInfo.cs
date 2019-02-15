@@ -52,9 +52,19 @@ namespace Azeroth.WCH.Model.DTO
 
              value1 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "员工考勤", Order = order++, Pid = value0.Id, Url = string.Empty };
             lst.Add(value1);
-             value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "主记录", Order = order++, Pid = value1.Id, Url = "/wages/attendance/index" };
+            value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "排班", Order = order++, Pid = value1.Id, Url = "/attendance/schedul/index" };
             lst.Add(value2);
-            value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "明细数据", Order = order++, Pid = value1.Id, Url = "/wages/attendance/detail" };
+            value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "打卡", Order = order++, Pid = value1.Id, Url = "/attendance/signio/index" };
+            lst.Add(value2);
+            value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "请假", Order = order++, Pid = value1.Id, Url = "/attendance/leave/index" };
+            lst.Add(value2);
+            value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "外勤", Order = order++, Pid = value1.Id, Url = "/attendance/workout/index" };
+            lst.Add(value2);
+            value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "申诉", Order = order++, Pid = value1.Id, Url = "/attendance/apply/index" };
+            lst.Add(value2);
+            value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "明细", Order = order++, Pid = value1.Id, Url = "/attendance/employee/index" };
+            lst.Add(value2);
+            value2 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "汇总", Order = order++, Pid = value1.Id, Url = "/attendance/employee/dashboard" };
             lst.Add(value2);
 
             value1 = new MenuInfo() { Id = Guid.NewGuid(), DisplayName = "公积金", Order = order++, Pid = value0.Id, Url = string.Empty };
