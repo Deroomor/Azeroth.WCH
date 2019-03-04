@@ -5,11 +5,13 @@ using System.Web;
 
 namespace Azeroth.WCHAPI
 {
-    public class RT
+    public class RT<T> 
     {
-        public int code { get; set; }
+        public RTCode code { get; set; }
+
+        public string codej { get { return this.code.ToString(); } }
         public string msg { get; set; }
-        public object data { get; set; }
+        public T data { get; set; }
         public object extension { get; set; }
 
         
