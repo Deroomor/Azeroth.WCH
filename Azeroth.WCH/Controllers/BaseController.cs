@@ -28,12 +28,13 @@ namespace Azeroth.WCH.Controllers
                 return;
             }
             string id = this.User.Identity.Name;
-            System.Web.Security.FormsAuthentication.SetAuthCookie(this.User.Identity.Name, true);
+            //System.Web.Security.FormsAuthentication.SetAuthCookie(this.User.Identity.Name, true);
             var userInfo = this.Session.GetValue(SessionIndex.UserInfo) as Model.UserInfo;
-            if(userInfo==null)//session丢失或者过期，重新从数据库取
+            if (userInfo == null)//session丢失或者过期，重新从数据库取
+            {
                 userInfo = this.BllUserInfo.GetById(Guid.Parse(id));
-            this.Session.SetValue(SessionIndex.UserInfo, userInfo);
-
+                this.Session.SetValue(SessionIndex.UserInfo, userInfo);
+            }
             var lstMenu = Model.DTO.MenuInfo.GetList();
             this.ViewData["lstMenu"] = lstMenu;
         }
